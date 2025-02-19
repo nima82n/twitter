@@ -1,0 +1,60 @@
+body, html {
+    margin-left:5px;
+    margin-right:5px;
+    }
+
+#form-div {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid rgba(33, 32, 32, 0.368);
+    border-radius: 8px;
+}
+
+#submit-button {
+    margin-top: 5px;
+}
+
+.posts {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid rgba(33, 32, 32, 0.368);
+    border-radius: 8px;
+}
+
+
+.edit-div {
+    display: none;
+}
+
+
+.textarea {
+    border-radius: 10px;
+    width: 60%;
+}
+
+
+.like-container {
+    width: 40px;
+}
+
+
+#follow-button {
+    margin-top: 10px;
+    margin-left: 80%;
+    width: 10px;
+    display: inline;
+}
+
+
+#follow-box {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid rgba(33, 32, 32, 0.368);
+    border-radius: 8px;
+}
+
+
+#followers-count {
+    width: 10px;
+    display: inline;
+}

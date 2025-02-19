@@ -1,0 +1,34 @@
+{% extends "network/layout.html" %}
+
+{% block csrf %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock  %}
+
+{% block title %}
+Followings
+{% endblock  %}
+
+
+{% block body %}
+<h1>All Posts</h1>
+    {% for post in page_obj %}
+        <div class='posts'>
+            <a href="{% url 'profile' post.user.id %}"><h4> {{ post.user}} </h4></a>
+            {{post.content}}
+            <br>
+            <div id='like-container-{{post.id}}'class='like-container' >
+                {% if user.is_authenticated %}
+                    {% if user in post.likes.all %}
+                        <div id='unlike-{{post.id}}' onclick='unlike({{post.id}})' >❤️ {{post.likes.count}}</div>
+                    {% else %}
+                        <div id='like-{{post.id}}' onclick='like({{post.id}})' >🤍 {{post.likes.count}} </div>
+                    {% endif %}
+                {% else %}
+                    <div>♡ {{post.likes.count}}</div>
+                {% endif %}
+            </div>
+            {{post.timestamp}}
+        </div>
+    {%endfor%}
+    
+{% endblock %}

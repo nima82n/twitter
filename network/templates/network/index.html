@@ -1,0 +1,65 @@
+{% extends "network/layout.html" %}
+
+{% block csrf %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock  %}
+
+{% block title %}
+    All Posts
+{% endblock  %}
+
+{% block body %}
+<h1>All Posts</h1>
+    {% if user.is_authenticated %}
+        <div id="form-div">
+            <h4>New Post</h4>
+            <br>
+            <form method='post' action='{% url "new_post" %}' >
+                {% csrf_token %}
+                <textarea class="form-control" name='content' ></textarea>
+                <input type="submit" class="btn btn-primary" value="Post" id="submit-button"/>
+            </form>
+        </div>
+    {% endif %}
+    {% for post in page_obj %}
+        <div class='posts'>
+            <a href="{% url 'profile' post.user.id %}"><h4> {{ post.user}} </h4></a>
+            <div id='post-body-{{forloop.counter}}'>
+                {{post.content}}
+            </div>
+            {% if user.is_authenticated %}
+                {% if post.user == user %}
+                <div id='edit-div-{{forloop.counter}}' class='edit-div' >
+                    <form onsubmit="editPost({{forloop.counter}}); return false" >
+                        <input type="hidden" value='{{ csrf_token }}' id='csrf-{{forloop.counter}}'>
+                        <textarea class='textarea' id='text-{{forloop.counter}}' > {{post.content}} </textarea>
+                        <input type="hidden" id='postId-{{forloop.counter}}' value='{{post.id}}' >
+                        <br>
+                        <input type='submit' id='save-button-{{forloop.counter}}' class="btn btn-primary btn-sm" value='Save'>
+                    </form>
+                </div>
+                {% endif %}
+            {% endif %}
+            <input type="hidden" value='{{post.likes.count}}' id='post-likes-{{post.id}}' >
+            <div id='like-container-{{post.id}}'class='like-container' >
+                {% if user.is_authenticated %}
+                    {% if user in post.likes.all %}
+                        <div id='unlike-{{post.id}}' onclick='unlike({{post.id}})' >❤️ {{post.likes.count}}</div>
+                    {% else %}
+                        <div id='like-{{post.id}}' onclick='like({{post.id}})' >🤍 {{post.likes.count}} </div>
+                    {% endif %}
+                {% else %}
+                    <div>♡ {{post.likes.count}}</div>
+                {% endif %}
+            </div>
+            {{post.timestamp}}
+            <br>
+            {% if user.is_authenticated %}
+                {% if post.user == user %}
+                    <button class="btn btn-primary btn-sm" id='edit-{{forloop.counter}}' onclick='editBox({{forloop.counter}})' style='margin-top: 5px' >Edit</button>
+                {% endif %}
+            {% endif %}
+        </div>
+    {%endfor%}
+
+{% endblock %}
